@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="dist/app.css">
   </head>
   <body>
+    <?php include 'database.php'; ?>
 
     <header>
       <nav>
@@ -18,19 +19,15 @@
 
     <main>
       <div class="wrapperSongs">
-
+        <?php foreach ($database as $song) {?>
+        <div class="song">
+          <img src="<?php echo $song['poster']; ?>" alt="">
+          <h2 class="title"><?php echo $song['title']; ?></h2>
+          <h3 class="author"><?php echo $song['author']; ?></h3>
+          <h3 class="year"><?php echo $song['year']; ?></h3>
+        </div>
+        <?php } ?>
       </div>
     </main>
-
-    <script id="template" type="text/x-handlebars-template">
-      <div class="song">
-        <img src="{{{poster}}}" alt="">
-        <h2 class="title">{{{title}}}</h2>
-        <h3 class="author">{{{author}}}</h3>
-        <h3 class="year">{{{year}}}</h3>
-      </div>
-    </script>
-
-    <script src="dist/app.js" charset="utf-8"></script>
   </body>
 </html>
