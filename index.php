@@ -12,6 +12,9 @@
       <nav>
         <div class="wrapperNav">
           <img id="logo" src="img/logo.png" alt="">
+          <select id="artists" class="" name="">
+            <option value="">All</option>
+          </select>
         </div>
       </nav>
     </header>
@@ -29,6 +32,10 @@
         <h3 class="author">{{{author}}}</h3>
         <h3 class="year">{{{year}}}</h3>
       </div>
+    </script>
+
+    <script id="select-template" type="text/x-handlebars-template">
+      <option value="{{ author }}">{{ author }}</option>
     </script>
 
     <script src="dist/app.js" charset="utf-8"></script>

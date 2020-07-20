@@ -16092,17 +16092,62 @@ var $ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js"
 var Handlebars = __webpack_require__(/*! handlebars */ "./node_modules/handlebars/dist/cjs/handlebars.js");
 
 $(document).ready(function () {
-  $.ajax({
-    url: 'http://localhost:8888/php-ajax-dischi/server.php',
-    method: 'GET',
-    success: function success(database) {
-      console.log(database);
-      printSongs(database);
-    },
-    error: function error() {
-      alert('Errore, si prega di riprovare più tardi');
+  // Funzioni iniziali per popolare la select e popolare la homepage
+  ajaxCallForSelect();
+  ajaxCall(); // Funzione che al click di una option della select mostra le canzoni dell'artista selezionato
+
+  $('#artists').change(function () {
+    var thisArtist = $(this).val();
+    $('.wrapperSongs').html('');
+    ajaxCall(thisArtist);
+  }); // Funzioni per popolare la select
+
+  function ajaxCallForSelect() {
+    $.ajax({
+      url: 'http://localhost:8888/php-ajax-dischi/server.php',
+      method: 'GET',
+      data: {
+        authorList: 'true'
+      },
+      success: function success(database) {
+        printSelect(database);
+      },
+      error: function error() {
+        alert('Errore, si prega di riprovare più tardi');
+      }
+    });
+  }
+
+  function printSelect(authors) {
+    var source = $('#select-template').html();
+    var template = Handlebars.compile(source);
+
+    for (var i = 0; i < authors.length; i++) {
+      var thisAuthor = authors[i];
+      var context = {
+        author: thisAuthor
+      };
+      var html = template(context);
+      $('#artists').append(html);
     }
-  });
+  } // Funzioni per le chiamate AJAX
+
+
+  function ajaxCall(author) {
+    $.ajax({
+      url: 'http://localhost:8888/php-ajax-dischi/server.php',
+      method: 'GET',
+      data: {
+        author: author
+      },
+      success: function success(database) {
+        printSongs(database);
+      },
+      error: function error() {
+        alert('Errore, si prega di riprovare più tardi');
+      }
+    });
+  }
 
   function printSongs(serverDataBase) {
     var source = $('#template').html();

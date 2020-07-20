@@ -39,7 +39,24 @@
         ]
     ];
 
-    $serverDataBase = json_encode($database);
+    if (!empty($_GET['authorList'])) {
+      $authorArray = [];
+      foreach ($database as $song) {
+        $authorArray[] = $song['author'];
+      }
+      echo json_encode($authorArray);
+    } elseif (!empty($_GET['author'])) {
+      $filteredArray = [];
+      foreach ($database as $song) {
+        if ($song['author'] === $_GET['author']) {
+          $filteredArray[] = $song;
+        }
+      }
+      echo json_encode($filteredArray);
+    } else {
+      echo json_encode($database);
+    }
+
     header('Content-Type: application/json');
-    echo $serverDataBase;
+
 ?>
